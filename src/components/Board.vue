@@ -79,8 +79,10 @@ export default {
     game(){
       if(this.moves === 9){
         //check if 9 moves were made because if there isn't a winner by 9 moves its a draw
-        this.status = "Draw";
-        this.colour = "draw";
+        if(this.winConditions() === false){
+          this.status = "Draw";
+          this.colour = "draw";
+        } else return;
       } else if (this.winConditions() === false) {
         //if there is no winner change the player
         this.changePlayer();

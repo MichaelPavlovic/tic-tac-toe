@@ -78,13 +78,14 @@ export default {
     //function for the game
     game(){
       if(this.moves === 9){
-        //check if 9 moves were made because if there isn't a winner by 9 moves its a draw
+      //check winConditions if 9 moves were made to see if there was a winner on the 9th move
         if(this.winConditions() === false){
+	  //if winConditions returns false, none of the possible win conditions were met, so the game is a draw
           this.status = "Draw";
           this.colour = "draw";
         } else return;
       } else if (this.winConditions() === false) {
-        //if there is no winner change the player
+        //if there is no winner and the max number of moves were not made, change the player
         this.changePlayer();
       } else {
         return;
@@ -111,7 +112,7 @@ export default {
         return true;
       }
 
-      //check for ertical wins
+      //check for vertical wins
       if (this.cells[1] === this.player && this.cells[4] === this.player && this.cells[7] === this.player) {
         this.isWon = true;
         bus.$emit('win');
@@ -140,6 +141,7 @@ export default {
         return true;
       }
       
+      //return false if no win conditions are met
       return false;
     }
   }

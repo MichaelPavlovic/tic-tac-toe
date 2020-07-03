@@ -67,10 +67,10 @@ export default {
   methods: {
     //function to change player
     changePlayer(){
-      if (this.player === 'X') {
+      if(this.player === 'X'){
         this.player = 'O';
         this.status = "O's turn";
-      } else {
+      } else{
         this.player = 'X';
         this.status = "X's turn";
       }
@@ -78,64 +78,48 @@ export default {
     //function for the game
     game(){
       if(this.moves === 9){
-      //check winConditions if 9 moves were made to see if there was a winner on the 9th move
+        //check winConditions if 9 moves were made to see if there was a winner on the 9th move
         if(this.winConditions() === false){
-	  //if winConditions returns false, none of the possible win conditions were met, so the game is a draw
+          //if winConditions returns false, none of the possible win conditions were met, so the game is a draw
           this.status = "Draw";
           this.colour = "draw";
         } else return;
-      } else if (this.winConditions() === false) {
+      } else if(this.winConditions() === false){
         //if there is no winner and the max number of moves were not made, change the player
         this.changePlayer();
-      } else {
+      } else{
         return;
       }
     },
     //function to check for win conditions
     winConditions(){
       //check for horizontal wins
-      if (this.cells[1] === this.player && this.cells[2] === this.player && this.cells[3] === this.player) {
-        //change isWon so the watcher executes
-        this.isWon = true;
-        //emit win event to stop clicking of cells in the cell component
-        bus.$emit('win');
-        return true;
-      }
-      if (this.cells[4] === this.player && this.cells[5] === this.player && this.cells[6] === this.player) {
-        this.isWon = true;
-        bus.$emit('win');
-        return true;
-      }
-      if (this.cells[7] === this.player && this.cells[8] === this.player && this.cells[9] === this.player) {
-        this.isWon = true;
-        bus.$emit('win');
-        return true;
+      for(let i = 1; i <= 7; i+=3){
+        if(this.cells[i] === this.player && this.cells[i+1] === this.player && this.cells[i+2] === this.player){
+          //change isWon so the watcher executes
+          this.isWon = true;
+          //emit win event to stop clicking of cells in the cell component
+          bus.$emit('win');
+          return true;
+        }
       }
 
       //check for vertical wins
-      if (this.cells[1] === this.player && this.cells[4] === this.player && this.cells[7] === this.player) {
-        this.isWon = true;
-        bus.$emit('win');
-        return true;
-      }
-      if (this.cells[2] === this.player && this.cells[5] === this.player && this.cells[8] === this.player) {
-        this.isWon = true;
-        bus.$emit('win');
-        return true;
-      }
-      if (this.cells[3] === this.player && this.cells[6] === this.player && this.cells[9] === this.player) {
-        this.isWon = true;
-        bus.$emit('win');
-        return true;
+      for(let i = 1; i <= 3; i++){
+        if(this.cells[i] === this.player && this.cells[i+3] === this.player && this.cells[i+6] === this.player){
+          this.isWon = true;
+          bus.$emit('win');
+          return true;
+        }
       }
 
       //check for diagonal wins
-      if (this.cells[1] === this.player && this.cells[5] === this.player && this.cells[9] === this.player) {
+      if(this.cells[1] === this.player && this.cells[5] === this.player && this.cells[9] === this.player){
         this.isWon = true;
         bus.$emit('win');
         return true;
       }
-      if (this.cells[3] === this.player && this.cells[5] === this.player && this.cells[7] === this.player) {
+      if(this.cells[3] === this.player && this.cells[5] === this.player && this.cells[7] === this.player){
         this.isWon = true;
         bus.$emit('win');
         return true;
